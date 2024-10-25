@@ -64,4 +64,4 @@ async def shutdown():
 # Основной маршрут
 @app.get("/", summary="Главная страница")
 async def root():
-    return {"message": "Добро пожаловать в Soccer Hub API!"}
+    return {"message": "Добро пожаловать в Soccer Hub API."}

@@ -4,22 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Soccer Hub{% endblock %}</title>
+    <!-- Подключение Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <header>
-        <h1>Soccer Hub</h1>
-        <nav>
-            <a href="/">Главная</a>
-            <a href="/teams/">Команды</a>
-            <a href="/matches/">Матчи</a>
-        </nav>
+    <header class="bg-primary text-white p-3">
+        <div class="container">
+            <h1>Soccer Hub</h1>
+            <nav>
+                <a href="/" class="text-white">Главная</a>
+                <a href="/teams/" class="text-white">Команды</a>
+                <a href="/matches/" class="text-white">Матчи</a>
+                <a href="/players/" class="text-white">Игроки</a>
+                <a href="/analytics/" class="text-white">Аналитика</a>
+            </nav>
+        </div>
     </header>
-    <main>
+    <main class="container mt-4">
         {% block content %}{% endblock %}
     </main>
-    <footer>
+    <footer class="bg-light text-center p-3 mt-4">
         <p>© 2024 Soccer Hub</p>
     </footer>
+    <!-- Подключение jQuery и Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

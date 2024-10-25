@@ -1,25 +1,23 @@
 {% extends "base.html" %}
 
-{% block title %}Команды{% endblock %}
+{% block title %}Аналитика{% endblock %}
 
 {% block content %}
-    <h2>Список команд</h2>
+    <h2>Топ команд</h2>
     <table class="table">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Название</th>
-                <th>Город</th>
-                <th>Стадион</th>
+                <th>Название команды</th>
+                <th>Очки</th>
             </tr>
         </thead>
         <tbody>
-            {% for team in teams %}
+            {% for team in top_teams %}
                 <tr>
                     <td>{{ team.id }}</td>
                     <td>{{ team.name }}</td>
-                    <td>{{ team.city }}</td>
-                    <td>{{ team.stadium }}</td>
+                    <td>{{ team.points }}</td>  <!-- Предполагается, что вы добавите поле `points` в модель команды -->
                 </tr>
             {% endfor %}
         </tbody>
