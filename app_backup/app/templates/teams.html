@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Список команд{% endblock %}
+
+{% block content %}
+    <h2>Список команд</h2>
+    <ul>
+        {% for team in teams %}
+            <li><a href="/teams/{{ team.id }}">{{ team.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

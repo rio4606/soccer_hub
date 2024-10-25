@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+SQLAlchemy
+pydantic
+alembic
+dotenv

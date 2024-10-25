@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Информация о команде{% endblock %}
+
+{% block content %}
+    <h2>{{ team.name }}</h2>
+    <p>Город: {{ team.city }}</p>
+    <p>Год основания: {{ team.founded }}</p>
+    <p>Стадион: {{ team.stadium }}</p>
+    <h3>Игроки</h3>
+    <ul>
+        {% for player in team.players %}
+            <li>{{ player.name }} - {{ player.position }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
