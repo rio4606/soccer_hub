@@ -3,23 +3,29 @@
 {% block title %}Аналитика{% endblock %}
 
 {% block content %}
+<section>
     <h2>Топ команд</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Название команды</th>
-                <th>Очки</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for team in top_teams %}
+    {% if top_teams %}
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>{{ team.id }}</td>
-                    <td>{{ team.name }}</td>
-                    <td>{{ team.points }}</td>  <!-- Предполагается, что вы добавите поле `points` в модель команды -->
+                    <th>ID</th>
+                    <th>Название команды</th>
+                    <th>Очки</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for team in top_teams %}
+                    <tr>
+                        <td>{{ team.id }}</td>
+                        <td>{{ team.name }}</td>
+                        <td>{{ team.points }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Нет доступных данных для отображения.</p>
+    {% endif %}
+</section>
 {% endblock %}
