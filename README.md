@@ -33,6 +33,9 @@ soccer_hub/
 │   │   └── schemas.py        # Схемы Pydantic для валидации
 │   │
 │   ├── routes/               # API маршруты
+│   │   ├── __init__.py       # Инициализация маршрутов
+│   │   ├── analytics.py      # Маршруты аналитики
+│   │   ├── players.py        # Маршруты игроков
 │   │   ├── teams.py          # Маршруты команд
 │   │   └── matches.py        # Маршруты матчей
 │   │
@@ -43,7 +46,11 @@ soccer_hub/
 │   ├── templates/            # HTML шаблоны
 │   │   ├── base.html         # Основной шаблон
 │   │   ├── index.html        # Главная страница
-│   │   └── team.html         # Страница команды
+│   │   ├── analytics.html    # Страница аналитики
+│   │   ├── matches.html      # Страница матчей
+│   │   ├── players.html      # Страница игроков
+│   │   ├── team.html         # Подробнее о команде
+│   │   └── teams.html        # Страница команд
 │   │
 │   ├── static/               # Статические файлы (CSS, JS, изображения)
 │   │   ├── css/              # Файлы стилей
@@ -55,6 +62,9 @@ soccer_hub/
 ├── tests/                    # Тесты для приложения
 │   ├── test_routes.py        # Тесты для маршрутов
 │   └── test_services.py      # Тесты для сервисов
+│
+├── add_data.py               # Добавление данных в БД
+├── create_db.py              # Создание базы данных
 │
 ├── .env                      # Переменные окружения
 ├── .gitignore                # Файлы и папки, которые нужно игнорировать в Git
@@ -82,6 +92,8 @@ soccer_hub/
 ![commands](app\static\images\commands.png)
 
 ![players](app\static\images\players.png)
+
+![matches](app\static\images\matches.png)
 
 ![analytics](app\static\images\analytics.png)
 
@@ -111,6 +123,6 @@ uvicorn app.main:app --reload
 
 **Автор:** Дуплей Максим Игоревич
 
-**Дата:** 15.10.2024
+**Дата:** 15.10.2024 - 30.10.2024
 
 **Версия:** 1.0
