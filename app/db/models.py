@@ -20,7 +20,7 @@ class Match(Base):
     id = Column(Integer, primary_key=True, index=True)
     home_team_id = Column(Integer, ForeignKey('teams.id'), nullable=False)
     away_team_id = Column(Integer, ForeignKey('teams.id'), nullable=False)
-    date = Column(DateTime, nullable=False)  # Дата матча
+    date = Column(DateTime, nullable=False)      # Дата матча
     home_score = Column(Integer, nullable=True)  # Счёт команды дома
     away_score = Column(Integer, nullable=True)  # Счёт команды гостей
 
@@ -35,10 +35,10 @@ class Player(Base):
     __tablename__ = "players"
     
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True, nullable=False)  # Имя игрока
-    position = Column(String, nullable=False)          # Позиция игрока
+    name = Column(String, index=True, nullable=False)                  # Имя игрока
+    position = Column(String, nullable=False)                          # Позиция игрока
     team_id = Column(Integer, ForeignKey("teams.id"), nullable=False)  # Идентификатор команды
-    team = relationship("Team", back_populates="players")  # Связь с командой
+    team = relationship("Team", back_populates="players")              # Связь с командой
 
     # Ограничение уникальности на имя игрока и команду (два игрока с одинаковым именем в одной команде недопустимы)
     __table_args__ = (UniqueConstraint('name', 'team_id', name='unique_player_in_team'),)
@@ -48,11 +48,11 @@ class ActionLog(Base):
     __tablename__ = 'action_logs'
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey('users.id'))  # Предполагаем, что у вас есть модель пользователей
+    user_id = Column(Integer, ForeignKey('users.id'))    # Предполагаем, что у вас есть модель пользователей
     action = Column(String)                              # Действие пользователя
     timestamp = Column(DateTime)                         # Время действия
 
-    user = relationship("User")                         # Связь с пользователем
+    user = relationship("User")                          # Связь с пользователем
 
 class User(Base):
     __tablename__ = 'users'
