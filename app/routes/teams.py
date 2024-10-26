@@ -9,10 +9,6 @@ from app.services.team_service import get_team_by_id, get_all_teams
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
 
-@router.get("/", response_class=HTMLResponse)
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
-
 @router.get("/teams/{team_id}", response_class=HTMLResponse)
 async def get_team(request: Request, team_id: int, db: Session = Depends(get_db)):
     team = get_team_by_id(db, team_id)

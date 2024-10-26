@@ -1,10 +1,12 @@
 import logging
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.templating import Jinja2Templates
+from requests import Session
 from sqlalchemy.exc import SQLAlchemyError
-from app.db.database import engine, Base
+from app.db.database import engine, Base, get_db
 from app.routes import teams_router, matches_router, analytics_router, players_router
 from app.core.config import settings
 
@@ -14,6 +16,7 @@ logger.setLevel(logging.INFO)
 
 # Создание экземпляра FastAPI
 app = FastAPI(title="Soccer Hub API")
+templates = Jinja2Templates(directory="app/templates")
 
 # Настройка CORS
 origins = [
@@ -63,6 +66,6 @@ async def shutdown():
     logger.info("Приложение завершает работу.")
 
 # Основной маршрут
-@app.get("/", summary="Главная страница")
-async def root() -> dict:
-    return {"message": "Добро пожаловать в Soccer Hub API."}
+@app.get("/", response_class=HTMLResponse, summary="Главная страница")
+async def root(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
+    return templates.TemplateResponse("index.html", {"request": request})
