@@ -1,6 +1,6 @@
 # Написание проекта сайта для футбольных команд на фреймворке Fast API, с аналитикой и адаптацией под различные устройства
 
-![soccer_hub](app\static\images\soccer_hub.png)
+![soccer_hub](app/static/images/soccer_hub.png)
 
 **Soccer Hub** — это веб-приложение, разработанное на фреймворке `FastAPI`, которое предоставляет API для управления информацией о футбольных командах, матчах и аналитикой.
 
@@ -87,15 +87,15 @@ soccer_hub/
 
 ## Примеры ссылок на проект
 
-![soccer_hub](app\static\images\soccer_hub_1.png)
+![soccer_hub](app/static/images/soccer_hub_1.png)
 
-![commands](app\static\images\commands.png)
+![commands](app/static/images/commands.png)
 
-![players](app\static\images\players.png)
+![players](app/static/images/players.png)
 
-![matches](app\static\images\matches.png)
+![matches](app/static/images/matches.png)
 
-![analytics](app\static\images\analytics.png)
+![analytics](app/static/images/analytics.png)
 
 ## Запуск проекта
 
