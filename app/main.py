@@ -1,19 +1,19 @@
 import logging
 from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.exceptions import RequestValidationError, HTTPException
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from app.db.database import engine, Base, get_db
-from app.db.models import Match, Player
+from app.db.models import Match, Player, Team
 from app.routes import teams_router, matches_router, analytics_router, players_router
 from app.core.config import Settings
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 # Создание экземпляра FastAPI
 app = FastAPI(title="Soccer Hub API")
@@ -68,23 +68,32 @@ async def shutdown():
 # Основной маршрут
 @app.get("/", response_class=HTMLResponse, summary="Главная страница")
 async def root(request: Request) -> HTMLResponse:
+    logger.info("Запрос к главной странице.")
     return templates.TemplateResponse("index.html", {"request": request})
 
-# Дополнительные маршруты для страниц
+# Страница команд
 @app.get("/teams", response_class=HTMLResponse, summary="Команды")
-async def teams_page(request: Request) -> HTMLResponse:
-    return templates.TemplateResponse("teams.html", {"request": request})
+async def teams_page(request: Request, db: Session = Depends(get_db)):
+    teams = db.query(Team).all()  # Получаем все команды из базы данных
+    logger.info(f"Найдено {len(teams)} команд.")
+    return templates.TemplateResponse("teams.html", {"request": request, "teams": teams})
 
+# Страница матчей
 @app.get("/matches", response_class=HTMLResponse, summary="Матчи")
 async def matches_page(request: Request, db: Session = Depends(get_db)):
     matches = db.query(Match).all()
+    logger.info(f"Найдено {len(matches)} матчей.")
     return templates.TemplateResponse("matches.html", {"request": request, "matches": matches})
 
+# Страница игроков
 @app.get("/players", response_class=HTMLResponse, summary="Игроки")
 async def get_players(request: Request, db: Session = Depends(get_db)):
     players = db.query(Player).all()  # Получаем всех игроков
+    logger.info(f"Найдено {len(players)} игроков.")
     return templates.TemplateResponse("players.html", {"request": request, "players": players})
 
+# Страница аналитики
 @app.get("/analytics", response_class=HTMLResponse, summary="Аналитика")
 async def analytics_page(request: Request) -> HTMLResponse:
+    logger.info("Запрос к странице аналитики.")
     return templates.TemplateResponse("analytics.html", {"request": request})
