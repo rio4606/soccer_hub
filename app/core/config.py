@@ -1,9 +1,7 @@
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
+DATABASE_URL = "sqlite:///C:/Users/maksi/Desktop/soccer_hub/instance/soccer_hub.db"
 
 class Settings:
-    DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///C:/Users/maksi/Desktop/soccer_hub/instance/soccer_hub.db")
+    debug: bool = True
+    some_other_setting: str = "value"
 
-settings = Settings()
+settings = Settings()  # Создаем экземпляр класса
