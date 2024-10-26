@@ -12,19 +12,24 @@ logger = logging.getLogger(__name__)
 # Определяем базу данных и создаем движок
 DATABASE_URL = "sqlite:///./instance/soccer_hub.db"  # Путь к вашей базе данных
 
-# Проверяем, существует ли директория
-db_directory = os.path.dirname(DATABASE_URL.split(":///")[-1])
-if not os.path.exists(db_directory):
-    os.makedirs(db_directory)
-    logger.info(f"Создана директория для базы данных: {db_directory}")
+def create_db():
+    """Создает директорию базы данных и инициализирует базу данных."""
+    # Проверяем, существует ли директория
+    db_directory = os.path.dirname(DATABASE_URL.split(":///")[-1])
+    if not os.path.exists(db_directory):
+        os.makedirs(db_directory)
+        logger.info(f"Создана директория для базы данных: {db_directory}")
 
-try:
-    # Создаем движок базы данных
-    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+    try:
+        # Создаем движок базы данных
+        engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
-    # Создаем все таблицы в базе данных
-    Base.metadata.create_all(bind=engine)
+        # Создаем все таблицы в базе данных
+        Base.metadata.create_all(bind=engine)
 
-    logger.info("База данных и таблицы созданы успешно.")
-except SQLAlchemyError as e:
-    logger.error(f"Ошибка при работе с базой данных: {e}")
+        logger.info("База данных и таблицы созданы успешно.")
+    except SQLAlchemyError as e:
+        logger.error(f"Ошибка при работе с базой данных: {e}")
+
+if __name__ == "__main__":
+    create_db()

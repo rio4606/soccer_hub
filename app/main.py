@@ -1,9 +1,10 @@
 import logging
-from fastapi import Depends, FastAPI, Request
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 from app.db.database import engine, Base, get_db
@@ -92,8 +93,35 @@ async def get_players(request: Request, db: Session = Depends(get_db)):
     logger.info(f"Найдено {len(players)} игроков.")
     return templates.TemplateResponse("players.html", {"request": request, "players": players})
 
-# Страница аналитики
 @app.get("/analytics", response_class=HTMLResponse, summary="Аналитика")
-async def analytics_page(request: Request) -> HTMLResponse:
+async def analytics_page(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
     logger.info("Запрос к странице аналитики.")
-    return templates.TemplateResponse("analytics.html", {"request": request})
+    
+    try:
+        # Получаем топ команд
+        top_teams = db.query(Team).order_by(Team.points.desc()).limit(10).all()  
+        # Получаем топ бомбардиров
+        top_scorers = db.query(Player).order_by(Player.goals.desc()).limit(10).all()  
+        
+        # Получаем статистику матчей
+        total_goals = db.query(func.sum(Match.home_score + Match.away_score)).scalar() or 0
+        total_matches = db.query(Match).count()
+        avg_goals_per_match = (total_goals / total_matches) if total_matches > 0 else 0
+        
+        match_stats = {
+            'total_goals': total_goals,
+            'total_matches': total_matches,
+            'avg_goals_per_match': avg_goals_per_match,
+        }
+        
+        return templates.TemplateResponse("analytics.html", {
+            "request": request,
+            "top_teams": top_teams,
+            "top_scorers": top_scorers,
+            "match_stats": match_stats
+        })
+
+    except Exception as e:
+        logger.error(f"Ошибка при получении данных для аналитики: {e}")
+        raise HTTPException(status_code=500, detail="Ошибка при получении данных аналитики.")
+    
