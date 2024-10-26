@@ -75,6 +75,16 @@ soccer_hub/
 4. **Alembic:** Миграции базы данных.
 5. **Docker:** Для контейнеризации приложения (опционально).
 
+## Примеры ссылок на проект
+
+![soccer_hub](app\static\images\soccer_hub_1.png)
+
+![commands](app\static\images\commands.png)
+
+![players](app\static\images\players.png)
+
+![analytics](app\static\images\analytics.png)
+
 ## Запуск проекта
 
 **Чтобы запустить проект, выполните следующие шаги:**
