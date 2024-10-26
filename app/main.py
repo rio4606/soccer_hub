@@ -5,7 +5,7 @@ from fastapi.exceptions import RequestValidationError, HTTPException
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
 from app.db.database import engine, Base
-from app.routes import teams, matches
+from app.routes import teams_router, matches_router, analytics_router, players_router
 from app.core.config import settings
 
 # Настройка логирования
@@ -29,24 +29,28 @@ app.add_middleware(
 )
 
 # Подключение маршрутов
-app.include_router(teams.router, prefix="/teams", tags=["Команды"])
-app.include_router(matches.router, prefix="/matches", tags=["Матчи"])
+app.include_router(teams_router, prefix="/teams", tags=["Команды"])
+app.include_router(matches_router, prefix="/matches", tags=["Матчи"])
+app.include_router(analytics_router, prefix="/analytics", tags=["Аналитика"])
+app.include_router(players_router, prefix="/players", tags=["Игроки"])
 
-# Обработка ошибок
-@app.exception_handler((RequestValidationError, SQLAlchemyError))
-async def global_exception_handler(request, exc):
-    if isinstance(exc, RequestValidationError):
-        logger.warning(f"Ошибка валидации: {exc.errors()} на запросе: {await request.json()}")
-        return JSONResponse(
-            status_code=422,
-            content={"detail": exc.errors(), "body": exc.body},
-        )
-    elif isinstance(exc, SQLAlchemyError):
-        logger.error(f"Ошибка базы данных: {exc} на запросе: {await request.json()}")
-        return JSONResponse(
-            status_code=500,
-            content={"detail": "Ошибка базы данных. Пожалуйста, попробуйте позже."},
-        )
+# Обработка ошибки валидации
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    logger.warning(f"Ошибка валидации: {exc.errors()} на запросе: {await request.json()}")
+    return JSONResponse(
+        status_code=422,
+        content={"detail": exc.errors()},
+    )
+
+# Обработка ошибки SQLAlchemy
+@app.exception_handler(SQLAlchemyError)
+async def sqlalchemy_exception_handler(request, exc):
+    logger.error(f"Ошибка базы данных: {exc} на запросе: {await request.json()}")
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Ошибка базы данных. Пожалуйста, попробуйте позже."},
+    )
 
 # Создание таблиц базы данных
 @app.on_event("startup")

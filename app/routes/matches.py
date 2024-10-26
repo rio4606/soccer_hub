@@ -1,21 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from fastapi import APIRouter
 from typing import List
-from app.db.database import get_db
-from app.db import models, schemas
-from app.services.match_service import get_all_matches, create_match
 
 router = APIRouter()
 
-# Маршрут для получения списка матчей
-@router.get("/matches/", response_model=List[schemas.Match])
-def get_matches(db: Session = Depends(get_db)):
-    matches = get_all_matches(db)
-    if not matches:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Матчи не найдены")
-    return matches
-
-# Маршрут для создания нового матча
-@router.post("/matches/", response_model=schemas.Match, status_code=status.HTTP_201_CREATED)
-def create_new_match(match: schemas.MatchCreate, db: Session = Depends(get_db)):
-    return create_match(db=db, match=match)
+@router.get("/", summary="Получить список матчей", response_model=List[dict])
+async def get_matches():
+    # Логика получения списка матчей
+    matches_data = [
+        {"id": 1, "home_team": "Команда A", "away_team": "Команда B", "date": "2024-10-26", "home_score": 2, "away_score": 1},
+        {"id": 2, "home_team": "Команда C", "away_team": "Команда D", "date": "2024-10-27", "home_score": 1, "away_score": 3},
+    ]
+    return matches_data

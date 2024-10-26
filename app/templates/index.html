@@ -3,6 +3,59 @@
 {% block title %}Главная страница{% endblock %}
 
 {% block content %}
-    <h2>Добро пожаловать на Soccer Hub!</h2>
-    <p>Здесь вы можете найти информацию о футбольных командах и матчах.</p>
+    <div class="text-center mt-4">
+        <h2 class="fw-bold">Добро пожаловать на Soccer Hub</h2>
+        <p class="lead">Найдите информацию о футбольных командах, матчах, игроках и аналитике.</p>
+        <p>Начните исследование мира футбола с нами.</p>
+    </div>
+
+    <div class="row mt-5">
+        <!-- Карточка Команды -->
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Команды</h5>
+                    <p class="card-text">Изучите информацию о любимых футбольных командах.</p>
+                    <a href="/teams/" class="btn btn-primary">Перейти к командам</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Карточка Матчи -->
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-futbol fa-3x text-success mb-3"></i>
+                    <h5 class="card-title">Матчи</h5>
+                    <p class="card-text">Следите за расписанием и результатами матчей.</p>
+                    <a href="/matches/" class="btn btn-success">Перейти к матчам</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Карточка Игроки -->
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-user fa-3x text-info mb-3"></i>
+                    <h5 class="card-title">Игроки</h5>
+                    <p class="card-text">Узнайте больше о лучших игроках.</p>
+                    <a href="/players/" class="btn btn-info">Перейти к игрокам</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Карточка Аналитика -->
+        <div class="col-md-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-chart-line fa-3x text-warning mb-3"></i>
+                    <h5 class="card-title">Аналитика</h5>
+                    <p class="card-text">Получите подробные аналитические данные.</p>
+                    <a href="/analytics/" class="btn btn-warning text-white">Перейти к аналитике</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

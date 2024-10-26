@@ -95,7 +95,9 @@ python run.py
 pip install fastapi uvicorn sqlalchemy pydantic alembic jinja2
 ```
 
-
+```
+uvicorn app.main:app --reload
+```
 
 **Автор:** Дуплей Максим Игоревич
 
