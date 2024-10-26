@@ -97,38 +97,41 @@ async def get_players(request: Request, db: Session = Depends(get_db)):
 @app.get("/analytics", response_class=HTMLResponse, summary="Аналитика")
 async def analytics_page(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
     logger.info("Запрос к странице аналитики.")
+    
+    top_teams = []
+    top_scorers = []
+    match_stats = {}
 
     try:
         # Получаем топ команд
         top_teams = db.query(Team).order_by(Team.points.desc()).limit(10).all()
-        logger.info(f"Топ команд: {top_teams}")  # Логирование полученных команд
 
         # Получаем топ бомбардиров
         top_scorers = db.query(Player).order_by(Player.goals.desc()).limit(10).all()
-        logger.info(f"Топ бомбардиров: {top_scorers}")  # Логирование полученных бомбардиров
 
         # Получаем статистику матчей
         total_goals = db.query(func.sum(Match.home_score + Match.away_score)).scalar() or 0
         total_matches = db.query(Match).count()
         avg_goals_per_match = (total_goals / total_matches) if total_matches > 0 else 0
-        
+
         match_stats = {
             'total_goals': total_goals,
             'total_matches': total_matches,
             'avg_goals_per_match': avg_goals_per_match,
         }
         
-        logger.info(f"Статистика матчей: {match_stats}")  # Логирование статистики
-
-        return templates.TemplateResponse("analytics.html", {
-            "request": request,
-            "top_teams": top_teams,
-            "top_scorers": top_scorers,
-            "match_stats": match_stats
-        })
+        logger.info(f"Статистика матчей: {match_stats}")
 
     except Exception as e:
         logger.error(f"Ошибка при получении данных для аналитики: {e}")
-        logger.error(traceback.format_exc())  # Логирование полного трейсбэка
+        logger.error(traceback.format_exc())
         raise HTTPException(status_code=500, detail="Ошибка при получении данных аналитики.")
-    
+
+    return templates.TemplateResponse("analytics.html", {
+        "request": request,
+        "top_teams": top_teams,
+        "top_scorers": top_scorers,
+        "match_stats": match_stats,
+        "no_teams": len(top_teams) == 0,  # Добавляем флаг для проверки отсутствия команд
+        "no_scorers": len(top_scorers) == 0,  # Флаг для проверки отсутствия бомбардиров
+    })
