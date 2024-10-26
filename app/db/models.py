@@ -22,7 +22,8 @@ class Team(Base):
     city = Column(String, index=True)
     founded = Column(Integer)  # Год основания команды
     stadium = Column(String)   # Стадион команды
-
+    points = Column(Integer, default=0)
+    
     players = relationship("Player", back_populates="team", cascade="all, delete-orphan")  # Связь с игроками
 
     def __repr__(self):
@@ -60,7 +61,8 @@ class Player(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True, nullable=False)                  # Имя игрока
-    position = Column(SQLAEnum(PositionEnum), nullable=False)             # Позиция игрока
+    position = Column(SQLAEnum(PositionEnum), nullable=False)          # Позиция игрока
+    goals = Column(Integer, default=0)
     team_id = Column(Integer, ForeignKey("teams.id"), nullable=False)  # Идентификатор команды
     team = relationship("Team", back_populates="players")              # Связь с командой
 

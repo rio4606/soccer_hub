@@ -10,22 +10,21 @@ Base.metadata.create_all(bind=engine)
 
 # Создаем сессию
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-session = SessionLocal()
 
 # Функции для добавления записей
-def add_team(name, city, founded, stadium):
+def add_team(session, name, city, founded, stadium):
     team = Team(name=name, city=city, founded=founded, stadium=stadium)
     session.add(team)
     session.commit()
     print(f"Added team: {team.name}")
 
-def add_player(name, position, team_id):
-    player = Player(name=name, position=position, team_id=team_id)
+def add_player(session, name, position, team_id, goals=0):  # Предполагая, что у вас есть поле goals
+    player = Player(name=name, position=position, team_id=team_id, goals=goals)  # goals = 0 по умолчанию
     session.add(player)
     session.commit()
     print(f"Added player: {player.name} to team ID {team_id}")
 
-def add_match(home_team_id, away_team_id, date, home_score=None, away_score=None):
+def add_match(session, home_team_id, away_team_id, date, home_score=None, away_score=None):
     match = Match(
         home_team_id=home_team_id,
         away_team_id=away_team_id,
@@ -38,58 +37,72 @@ def add_match(home_team_id, away_team_id, date, home_score=None, away_score=None
     print(f"Added match on {match.date} between teams {home_team_id} and {away_team_id}")
 
 # Добавление российских футбольных клубов
+session = SessionLocal()
 try:
-    add_team("Зенит", "Санкт-Петербург", 1925, "Газпром Арена")
-    add_team("Спартак", "Москва", 1922, "Открытие Арена")
-    add_team("ЦСКА", "Москва", 1911, "ВЭБ Арена")
-    add_team("Локомотив", "Москва", 1922, "РЖД Арена")
-    add_team("Краснодар", "Краснодар", 2008, "Стадион Краснодар")
-    add_team("Динамо", "Москва", 1923, "ВТБ Арена")
-    add_team("Рубин", "Казань", 1958, "Казань Арена")
-    add_team("Ростов", "Ростов-на-Дону", 1930, "Ростов Арена")
-    add_team("Ахмат", "Грозный", 1946, "Ахмат Арена")
-    add_team("Сочи", "Сочи", 2018, "Фишт")
+    # Добавление команд
+    teams_data = [
+        ("Зенит", "Санкт-Петербург", 1925, "Газпром Арена"),
+        ("Спартак", "Москва", 1922, "Открытие Арена"),
+        ("ЦСКА", "Москва", 1911, "ВЭБ Арена"),
+        ("Локомотив", "Москва", 1922, "РЖД Арена"),
+        ("Краснодар", "Краснодар", 2008, "Стадион Краснодар"),
+        ("Динамо", "Москва", 1923, "ВТБ Арена"),
+        ("Рубин", "Казань", 1958, "Казань Арена"),
+        ("Ростов", "Ростов-на-Дону", 1930, "Ростов Арена"),
+        ("Ахмат", "Грозный", 1946, "Ахмат Арена"),
+        ("Сочи", "Сочи", 2018, "Фишт"),
+    ]
+    
+    for team in teams_data:
+        add_team(session, *team)
 
     # Добавление игроков для каждой команды
-    add_player("Артем Дзюба", "Forward", team_id=1)  # Зенит
-    add_player("Вилмар Барриос", "Midfielder", team_id=1)
-    add_player("Малком", "Forward", team_id=1)
-
-    add_player("Александр Соболев", "Forward", team_id=2)  # Спартак
-    add_player("Зелимхан Бакаев", "Midfielder", team_id=2)
-    add_player("Джордан Ларссон", "Forward", team_id=2)
-
-    add_player("Федор Чалов", "Forward", team_id=3)  # ЦСКА
-    add_player("Игорь Акинфеев", "Goalkeeper", team_id=3)
-    add_player("Никола Влашич", "Midfielder", team_id=3)
-
-    add_player("Антон Миранчук", "Midfielder", team_id=4)  # Локомотив
-    add_player("Гжегож Крыховяк", "Midfielder", team_id=4)
-    add_player("Эдер", "Forward", team_id=4)
-
-    add_player("Маркус Берг", "Forward", team_id=5)  # Краснодар
-    add_player("Реми Кабелла", "Midfielder", team_id=5)
-    add_player("Юрий Газинский", "Midfielder", team_id=5)
-
-    add_player("Клинтон Н'Жи", "Forward", team_id=6)  # Динамо
-    add_player("Александр Ташаев", "Midfielder", team_id=6)
-
-    add_player("Георгий Махатадзе", "Midfielder", team_id=7)  # Рубин
-    add_player("Дмитрий Полоз", "Forward", team_id=8)  # Ростов
-    add_player("Бернард Бериша", "Forward", team_id=9)  # Ахмат
-    add_player("Алексей Помазун", "Goalkeeper", team_id=10)  # Сочи
+    players_data = [
+        ("Артем Дзюба", "Forward", 1),
+        ("Вилмар Барриос", "Midfielder", 1),
+        ("Малком", "Forward", 1),
+        ("Александр Соболев", "Forward", 2),
+        ("Зелимхан Бакаев", "Midfielder", 2),
+        ("Джордан Ларссон", "Forward", 2),
+        ("Федор Чалов", "Forward", 3),
+        ("Игорь Акинфеев", "Goalkeeper", 3),
+        ("Никола Влашич", "Midfielder", 3),
+        ("Антон Миранчук", "Midfielder", 4),
+        ("Гжегож Крыховяк", "Midfielder", 4),
+        ("Эдер", "Forward", 4),
+        ("Маркус Берг", "Forward", 5),
+        ("Реми Кабелла", "Midfielder", 5),
+        ("Юрий Газинский", "Midfielder", 5),
+        ("Клинтон Н'Жи", "Forward", 6),
+        ("Александр Ташаев", "Midfielder", 6),
+        ("Георгий Махатадзе", "Midfielder", 7),
+        ("Дмитрий Полоз", "Forward", 8),
+        ("Бернард Бериша", "Forward", 9),
+        ("Алексей Помазун", "Goalkeeper", 10),
+    ]
+    
+    for player in players_data:
+        add_player(session, *player)
 
     # Добавление матчей между командами
-    add_match(home_team_id=1, away_team_id=2, date=datetime(2024, 10, 25), home_score=2, away_score=1)  # Зенит vs Спартак
-    add_match(home_team_id=2, away_team_id=3, date=datetime(2024, 10, 30), home_score=1, away_score=1)  # Спартак vs ЦСКА
-    add_match(home_team_id=3, away_team_id=4, date=datetime(2024, 11, 5), home_score=0, away_score=3)   # ЦСКА vs Локомотив
-    add_match(home_team_id=4, away_team_id=5, date=datetime(2024, 11, 10), home_score=2, away_score=2)  # Локомотив vs Краснодар
-    add_match(home_team_id=5, away_team_id=1, date=datetime(2024, 11, 15), home_score=1, away_score=4)  # Краснодар vs Зенит
-    add_match(home_team_id=6, away_team_id=7, date=datetime(2024, 11, 20), home_score=0, away_score=1)  # Динамо vs Рубин
-    add_match(home_team_id=7, away_team_id=8, date=datetime(2024, 11, 25), home_score=3, away_score=3)  # Рубин vs Ростов
-    add_match(home_team_id=8, away_team_id=9, date=datetime(2024, 11, 30), home_score=2, away_score=2)  # Ростов vs Ахмат
-    add_match(home_team_id=9, away_team_id=10, date=datetime(2024, 12, 5), home_score=1, away_score=1)  # Ахмат vs Сочи
-    add_match(home_team_id=10, away_team_id=6, date=datetime(2024, 12, 10), home_score=1, away_score=0)  # Сочи vs Динамо
+    matches_data = [
+        (1, 2, datetime(2024, 10, 25), 2, 1),
+        (2, 3, datetime(2024, 10, 30), 1, 1),
+        (3, 4, datetime(2024, 11, 5), 0, 3),
+        (4, 5, datetime(2024, 11, 10), 2, 2),
+        (5, 1, datetime(2024, 11, 15), 1, 4),
+        (6, 7, datetime(2024, 11, 20), 0, 1),
+        (7, 8, datetime(2024, 11, 25), 3, 3),
+        (8, 9, datetime(2024, 11, 30), 2, 2),
+        (9, 10, datetime(2024, 12, 5), 1, 1),
+        (10, 6, datetime(2024, 12, 10), 1, 0),
+    ]
+    
+    for match in matches_data:
+        add_match(session, *match)
+
+except Exception as e:
+    print(f"Ошибка: {e}")
 
 finally:
     # Закрываем сессию после завершения добавления

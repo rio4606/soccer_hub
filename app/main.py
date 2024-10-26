@@ -1,4 +1,5 @@
 import logging
+import traceback
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
@@ -96,13 +97,16 @@ async def get_players(request: Request, db: Session = Depends(get_db)):
 @app.get("/analytics", response_class=HTMLResponse, summary="Аналитика")
 async def analytics_page(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
     logger.info("Запрос к странице аналитики.")
-    
+
     try:
         # Получаем топ команд
-        top_teams = db.query(Team).order_by(Team.points.desc()).limit(10).all()  
+        top_teams = db.query(Team).order_by(Team.points.desc()).limit(10).all()
+        logger.info(f"Топ команд: {top_teams}")  # Логирование полученных команд
+
         # Получаем топ бомбардиров
-        top_scorers = db.query(Player).order_by(Player.goals.desc()).limit(10).all()  
-        
+        top_scorers = db.query(Player).order_by(Player.goals.desc()).limit(10).all()
+        logger.info(f"Топ бомбардиров: {top_scorers}")  # Логирование полученных бомбардиров
+
         # Получаем статистику матчей
         total_goals = db.query(func.sum(Match.home_score + Match.away_score)).scalar() or 0
         total_matches = db.query(Match).count()
@@ -114,6 +118,8 @@ async def analytics_page(request: Request, db: Session = Depends(get_db)) -> HTM
             'avg_goals_per_match': avg_goals_per_match,
         }
         
+        logger.info(f"Статистика матчей: {match_stats}")  # Логирование статистики
+
         return templates.TemplateResponse("analytics.html", {
             "request": request,
             "top_teams": top_teams,
@@ -123,5 +129,6 @@ async def analytics_page(request: Request, db: Session = Depends(get_db)) -> HTM
 
     except Exception as e:
         logger.error(f"Ошибка при получении данных для аналитики: {e}")
+        logger.error(traceback.format_exc())  # Логирование полного трейсбэка
         raise HTTPException(status_code=500, detail="Ошибка при получении данных аналитики.")
     
