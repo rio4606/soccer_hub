@@ -1,86 +1,146 @@
-{% extends "base.html" %}
-
-{% block title %}Аналитика{% endblock %}
-
-{% block content %}
-<div class="container my-4">
-    <h2 class="text-center mb-4">Аналитика команд</h2>
-
-    <!-- Раздел Топ команд -->
-    <section class="mb-5">
-        <h3 class="text-primary">🏆 Топ команд</h3>
-        {% if top_teams %}
-            <table class="table table-hover table-striped mt-3">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Название команды</th>
-                        <th>Очки</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for team in top_teams %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аналитика команд</title>
+    <!-- Подключение Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #1c1c1c, #3a3a3a); /* Тёмный градиентный фон */
+            color: #ffffff; /* Цвет текста по умолчанию */
+        }
+        .container {
+            background: rgba(30, 30, 30, 0.9); /* Полупрозрачный тёмный фон для контейнера */
+            border-radius: 15px; /* Закругляем углы контейнера */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Добавляем тень к контейнеру */
+            padding: 20px; /* Внутренние отступы для контейнера */
+            margin-top: 40px; /* Отступ сверху */
+        }
+        h2, h3 {
+            font-weight: bold; /* Жирный шрифт для заголовков */
+            color: #f8f9fa; /* Цвет заголовков */
+        }
+        .badge {
+            font-size: 1rem; /* Размер шрифта для бейджей */
+        }
+        table {
+            border-collapse: collapse; /* Убираем двойные границы */
+            width: 100%; /* Ширина таблицы */
+        }
+        th, td {
+            padding: 12px; /* Отступы в ячейках */
+            text-align: center; /* Центрируем текст */
+            color: #ffffff; /* Цвет текста для ячеек таблицы */
+        }
+        th {
+            background-color: #007bff; /* Цвет фона заголовков */
+            color: white; /* Цвет текста заголовков */
+            border: 1px solid #ddd; /* Граница для заголовков */
+        }
+        tr:nth-child(even) {
+            background-color: #2a2a2a; /* Цвет фона для четных строк */
+        }
+        tr:hover {
+            background-color: #444; /* Цвет фона при наведении на строку */
+        }
+        .list-group-item {
+            background-color: rgba(255, 255, 255, 0.1); /* Полупрозрачный фон для элементов списка */
+            border: none; /* Убираем границы */
+            color: #ffffff; /* Цвет текста */
+        }
+        .team-name, .player-name {
+            color: #ffffff; /* Устанавливаем белый цвет для названий команд и имен игроков */
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-4">
+        <h2 class="text-center mb-4">Аналитика команд</h2>
+        <!-- Раздел Топ команд -->
+        <section class="mb-5">
+            <h3 class="text-primary">🏆 Топ команд</h3>
+            {% if top_teams %}
+                <table class="table table-hover table-striped mt-3">
+                    <thead>
                         <tr>
-                            <td>{{ team.id }}</td>
-                            <td>{{ team.name }}</td>
-                            <td><span class="badge bg-success">{{ team.points }}</span></td>
+                            <th>ID</th>
+                            <th>Название команды</th>
+                            <th>Очки</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p class="text-muted">Нет доступных данных для отображения.</p>
-        {% endif %}
-    </section>
-
-    <!-- Раздел Лидеры по забитым голам -->
-    <section class="mb-5">
-        <h3 class="text-success">⚽ Лидеры по забитым голам</h3>
-        {% if top_scorers %}
-            <table class="table table-hover table-striped mt-3">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID Игрока</th>
-                        <th>Имя Игрока</th>
-                        <th>Голы</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for player in top_scorers %}
+                    </thead>
+                    <tbody>
+                        {% for team in top_teams %}
+                            <tr>
+                                <td>{{ team.id }}</td>
+                                <td class="team-name">{{ team.name }}</td> <!-- Применяем класс для цвета текста -->
+                                <td><span class="badge bg-success">{{ team.points }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted">Нет доступных данных для отображения.</p>
+            {% endif %}
+        </section>
+        <!-- Раздел Лидеры по забитым голам -->
+        <section class="mb-5">
+            <h3 class="text-success">⚽ Лидеры по забитым голам</h3>
+            {% if top_scorers %}
+                <table class="table table-hover table-striped mt-3">
+                    <thead>
                         <tr>
-                            <td>{{ player.id }}</td>
-                            <td>{{ player.name }}</td>
-                            <td><span class="badge bg-warning text-dark">{{ player.goals }}</span></td>
+                            <th>ID Игрока</th>
+                            <th>Имя Игрока</th>
+                            <th>Голы</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p class="text-muted">Нет доступных данных для отображения.</p>
-        {% endif %}
-    </section>
+                    </thead>
+                    <tbody>
+                        {% for player in top_scorers %}
+                            <tr>
+                                <td>{{ player.id }}</td>
+                                <td class="player-name">{{ player.name }}</td> <!-- Применяем класс для цвета текста -->
+                                <td><span class="badge bg-warning text-dark">{{ player.goals }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted">Нет доступных данных для отображения.</p>
+            {% endif %}
+        </section>
+        <!-- Раздел Статистика матчей -->
+        <section>
+            <h3 class="text-info">📊 Статистика матчей</h3>
+            {% if match_stats %}
+                <ul class="list-group mt-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Общий счёт забитых голов:
+                        <span class="badge bg-primary rounded-pill">{{ match_stats.total_goals }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Общее количество матчей:
+                        <span class="badge bg-secondary rounded-pill">{{ match_stats.total_matches }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Среднее количество голов за матч:
+                        <span class="badge bg-info rounded-pill">{{ match_stats.avg_goals_per_match }}</span>
+                    </li>
+                </ul>
+            {% else %}
+                <p class="text-muted">Нет доступных данных для отображения.</p>
+            {% endif %}
+        </section>
+        <!-- Кнопка возврата на главную страницу -->
+        <div class="text-center mt-4">
+            <a href="http://127.0.0.1:8000/" class="btn btn-light">Вернуться на главную страницу</a>
+        </div>
+    </div>
+    <!-- Подключение Bootstrap JS (необязательно) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
 
-    <!-- Раздел Статистика матчей -->
-    <section>
-        <h3 class="text-info">📊 Статистика матчей</h3>
-        {% if match_stats %}
-            <ul class="list-group mt-3">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Общий счёт забитых голов:
-                    <span class="badge bg-primary rounded-pill">{{ match_stats.total_goals }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Общее количество матчей:
-                    <span class="badge bg-secondary rounded-pill">{{ match_stats.total_matches }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Среднее количество голов за матч:
-                    <span class="badge bg-info rounded-pill">{{ match_stats.avg_goals_per_match }}</span>
-                </li>
-            </ul>
-        {% else %}
-            <p class="text-muted">Нет доступных данных для отображения.</p>
-        {% endif %}
-    </section>
-</div>
-{% endblock %}

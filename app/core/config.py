@@ -1,4 +1,4 @@
-DATABASE_URL = "sqlite:///C:/Users/maksi/Desktop/soccer_hub/instance/soccer_hub.db"
+DATABASE_URL = "sqlite:///C:/Users/madon/Documents/GitHub/soccer_hub/instance/soccer_hub.db"
 
 class Settings:
     debug: bool = True

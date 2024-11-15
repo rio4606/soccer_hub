@@ -20,9 +20,9 @@
 
 ```
 soccer_hub/
-├── app/
+├── app/   
 │   ├── __init__.py           # Инициализация FastAPI приложения
-│   ├── main.py               # Запуск приложения
+│   ├── main.py            # Запуск приложения
 │   ├── core/
 │   │   ├── config.py         # Конфигурации приложения
 │   │   └── security.py       # Функции безопасности
@@ -121,8 +121,6 @@ pip install fastapi uvicorn sqlalchemy pydantic alembic jinja2
 uvicorn app.main:app --reload
 ```
 
-**Автор:** Дуплей Максим Игоревич
-
-**Дата:** 15.10.2024 - 30.10.2024
+**Дата:** 15.10.2024 - 8.12.2024
 
 **Версия:** 1.0

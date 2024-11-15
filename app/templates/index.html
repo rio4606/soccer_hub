@@ -1,61 +1,117 @@
-{% extends "base.html" %}
+<!DOCTYPE html> <!-- Объявление типа документа, указывает, что это HTML5 -->
+<html lang="ru"> <!-- Начало HTML-документа, устанавливаем язык страницы на русский -->
+<head>
+    <meta charset="UTF-8"> <!-- Устанавливаем кодировку для правильного отображения символов -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Настройка для адаптивного дизайна на мобильных устройствах -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Подключаем библиотеку иконок Font Awesome для использования иконок -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Подключаем Bootstrap для использования стилей и компонентов -->
+    <link rel="stylesheet" href="styles.css"> <!-- Правильный путь -->
+    <style>
+        /* Начало встроенных стилей для этой страницы */
+        body {
+            font-family: 'Arial', sans-serif; /* Устанавливаем шрифт для всего текста на странице */
+            background: linear-gradient(to bottom right, rgba(0, 123, 255, 0.7), rgba(255, 193, 7, 0.7)), url('https://www.example.com/your-background-image.jpg'); /* Устанавливаем фон с градиентом и изображением */
+            background-size: cover; /* Обеспечиваем, чтобы фоновое изображение занимало всю область */
+            background-position: center; /* Центрируем фоновое изображение */
+            height: 100vh; /* Устанавливаем высоту для body равной высоте окна браузера */
+            position: relative; /* Устанавливаем относительное позиционирование для вложенных элементов */
+            overflow: hidden; /* Скрываем любые элементы, которые выходят за пределы области */
+        }
+        .hero {
+            background: rgba(0, 0, 0, 0.7); /* Полупрозрачный черный фон для блока с приветствием */
+            color: white; /* Устанавливаем цвет текста на белый */
+            padding: 60px 20px; /* Устанавливаем внутренние отступы (сверху и снизу 60px, справа и слева 20px) */
+            border-radius: 15px; /* Закругляем углы блока */
+            margin-bottom: 30px; /* Устанавливаем нижний отступ для блока */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Добавляем тень к блоку */
+            position: relative; /* Устанавливаем относительное позиционирование для этого блока */
+            z-index: 1; /* Устанавливаем порядок наложения, чтобы блок был выше других элементов */
+        }
+        .card {
+            border: none; /* Убираем рамку у карточек */
+            transition: transform 0.3s, box-shadow 0.3s; /* Добавляем плавные переходы для анимации при наведении */
+            border-radius: 15px; /* Закругляем углы карточек */
+            overflow: hidden; /* Скрываем части карточек, которые выходят за пределы */
+            z-index: 1; /* Устанавливаем порядок наложения для карточек */
+        }
+        .card:hover {
+            transform: translateY(-10px); /* При наведении на карточку поднимаем её вверх на 10 пикселей */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Увеличиваем тень при наведении */
+        }
+        .btn-custom {
+            border-radius: 25px; /* Закругляем углы кнопок */
+            padding: 10px 20px; /* Устанавливаем внутренние отступы для кнопок */
+            font-weight: bold; /* Устанавливаем жирный шрифт для текста кнопок */
+        }
+        .card-title {
+            font-size: 1.5rem; /* Увеличиваем размер шрифта для заголовка карточки */
+            font-weight: 700; /* Устанавливаем жирный шрифт для заголовка карточки */
+            margin-top: 15px; /* Устанавливаем верхний отступ для заголовка карточки */
+        }
+        .card-text {
+            font-size: 1rem; /* Устанавливаем размер шрифта для текста карточки */
+            color: #6c757d; /* Устанавливаем цвет текста карточки */
+        }
+    </style>
+    <title>Soccer Hub</title> <!-- Устанавливаем заголовок страницы, который отображается на вкладке браузера -->
+</head>
+<body>
+    <div class="container"> <!-- Контейнер Bootstrap для центрирования и установки отступов -->
+        <div class="text-center hero"> <!-- Блок с приветствием, выравнивание текста по центру -->
+            <h2 class="fw-bold">Добро пожаловать на Soccer Hub</h2> <!-- Заголовок второго уровня с жирным шрифтом -->
+            <p class="lead">Найдите информацию о футбольных командах, матчах, игроках и аналитике.</p> <!-- Параграф с подзаголовком -->
+            <p>Начните исследование мира футбола с нами.</p> <!-- Дополнительный параграф -->
+        </div>
+        <div class="row mt-5"> <!-- Ряд для карточек, с верхним отступом -->
+            <!-- Карточка Команды -->
+            <div class="col-md-3 mb-4"> <!-- Колонка для карточки, занимает 3 из 12 частей на среднем и большом экранах -->
+                <div class="card shadow-sm h-100"> <!-- Карточка с небольшой тенью и высотой 100% -->
+                    <div class="card-body text-center"> <!-- Тело карточки с выравниванием текста по центру -->
+                        <i class="fas fa-users fa-3x text-primary mb-3"></i> <!-- Иконка пользователей из Font Awesome, размер 3x, синий цвет и нижний отступ -->
+                        <h5 class="card-title">Команды</h5> <!-- Заголовок карточки -->
+                        <p class="card-text">Изучите информацию о любимых футбольных командах.</p> <!-- Текст карточки -->
+                        <a href="/teams/" class="btn btn-primary btn-custom">Перейти к командам</a> <!-- Кнопка с ссылкой, использующая стили Bootstrap и кастомные стили -->
+                    </div>
+                </div>
+            </div>
 
-{% block title %}Главная страница{% endblock %}
-
-{% block content %}
-    <div class="text-center mt-4">
-        <h2 class="fw-bold">Добро пожаловать на Soccer Hub</h2>
-        <p class="lead">Найдите информацию о футбольных командах, матчах, игроках и аналитике.</p>
-        <p>Начните исследование мира футбола с нами.</p>
+            <!-- Карточка Матчи -->
+            <div class="col-md-3 mb-4"> <!-- Колонка для карточки -->
+                <div class="card shadow-sm h-100"> <!-- Карточка -->
+                    <div class="card-body text-center"> <!-- Тело карточки -->
+                        <i class="fas fa-futbol fa-3x text-success mb-3"></i> <!-- Иконка футбольного мяча -->
+                        <h5 class="card-title">Матчи</h5> <!-- Заголовок карточки -->
+                        <p class="card-text">Следите за расписанием и результатами матчей.</p> <!-- Текст карточки -->
+                        <a href="/matches/" class="btn btn-success btn-custom">Перейти к матчам</a> <!-- Кнопка -->
+                    </div>
+                </div>
+            </div>
+            <!-- Карточка Игроки -->
+            <div class="col-md-3 mb-4"> <!-- Колонка для карточки -->
+                <div class="card shadow-sm h-100"> <!-- Карточка -->
+                    <div class="card-body text-center"> <!-- Тело карточки -->
+                        <i class="fas fa-user fa-3x text-info mb-3"></i> <!-- Иконка игрока -->
+                        <h5 class="card-title">Игроки</h5> <!-- Заголовок карточки -->
+                        <p class="card-text">Узнайте больше о лучших игроках.</p> <!-- Текст карточки -->
+                        <a href="/players/" class="btn btn-info btn-custom">Перейти к игрокам</a> <!-- Кнопка -->
+                    </div>
+                </div>
+            </div>
+            <!-- Карточка Аналитика -->
+            <div class="col-md-3 mb-4"> <!-- Колонка для карточки -->
+                <div class="card shadow-sm h-100"> <!-- Карточка -->
+                    <div class="card-body text-center"> <!-- Тело карточки -->
+                        <i class="fas fa-chart-line fa-3x text-warning mb-3"></i> <!-- Иконка аналитики -->
+                        <h5 class="card-title">Аналитика</h5> <!-- Заголовок карточки -->
+                        <p class="card-text">Получите подробные аналитические данные.</p> <!-- Текст карточки -->
+                        <a href="/analytics/" class="btn btn-warning text-white btn-custom">Перейти к аналитике</a> <!-- Кнопка -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="row mt-5">
-        <!-- Карточка Команды -->
-        <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body text-center">
-                    <i class="fas fa-users fa-3x text-primary mb-3"></i>
-                    <h5 class="card-title">Команды</h5>
-                    <p class="card-text">Изучите информацию о любимых футбольных командах.</p>
-                    <a href="/teams/" class="btn btn-primary">Перейти к командам</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Карточка Матчи -->
-        <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body text-center">
-                    <i class="fas fa-futbol fa-3x text-success mb-3"></i>
-                    <h5 class="card-title">Матчи</h5>
-                    <p class="card-text">Следите за расписанием и результатами матчей.</p>
-                    <a href="/matches/" class="btn btn-success">Перейти к матчам</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Карточка Игроки -->
-        <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body text-center">
-                    <i class="fas fa-user fa-3x text-info mb-3"></i>
-                    <h5 class="card-title">Игроки</h5>
-                    <p class="card-text">Узнайте больше о лучших игроках.</p>
-                    <a href="/players/" class="btn btn-info">Перейти к игрокам</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Карточка Аналитика -->
-        <div class="col-md-3">
-            <div class="card shadow-sm h-100">
-                <div class="card-body text-center">
-                    <i class="fas fa-chart-line fa-3x text-warning mb-3"></i>
-                    <h5 class="card-title">Аналитика</h5>
-                    <p class="card-text">Получите подробные аналитические данные.</p>
-                    <a href="/analytics/" class="btn btn-warning text-white">Перейти к аналитике</a>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> <!-- Подключаем jQuery для работы с Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script> <!-- Подключаем Popper.js для работы с всплывающими элементами -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> <!-- Подключаем JavaScript Bootstrap для функциональности компонентов -->
+</body>
+</html>

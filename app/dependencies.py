@@ -2,7 +2,7 @@ from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.db.models import User
-from app.core.security import verify_token  # Если вы используете токены для аутентификации
+from app.core.security import verify_token  # Если вы    используете токены для аутентификации
 
 # Получение текущего пользователя из токена
 async def get_current_user(db: Session = Depends(get_db), token: str = Depends(verify_token)):

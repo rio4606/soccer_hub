@@ -1,25 +1,77 @@
+/* Начало встроенных стилей для players.html */
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
+    background-color: #343a40; /* Темный фон для всего тела */
+    color: white; /* Белый цвет текста по умолчанию */
 }
 
-header {
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
+.card-custom {
+    background-color: #495057; /* Темный фон для карточек */
+    border: 1px solid #ced4da; /* Светлая граница карточек */
 }
 
-nav a {
-    color: white;
-    margin: 0 10px;
-    text-decoration: none;
+.card-title-custom {
+    color: #ffffff; /* Белый цвет заголовка карточки */
 }
 
-footer {
-    text-align: center;
-    padding: 10px 0;
-    background-color: #333;
-    color: white;
+.text-club {
+    color: #007bff; /* Синий цвет для названия клуба */
 }
+
+.text-muted-custom {
+    color: #adb5bd; /* Светло-серый цвет для дополнительной информации */
+}
+
+.btn-light {
+    background-color: #ffffff; /* Белый фон для кнопки */
+    color: #343a40; /* Темный текст для кнопки */
+    border: none; /* Убираем границу */
+}
+
+
+/* Начало встроенных стилей для index.html */
+body {
+    font-family: 'Arial', sans-serif; /* Устанавливаем шрифт для всего текста на странице */
+    background: linear-gradient(to bottom right, rgba(0, 123, 255, 0.7), rgba(255, 193, 7, 0.7)), url('https://www.example.com/your-background-image.jpg'); /* Устанавливаем фон с градиентом и изображением */
+    background-size: cover; /* Обеспечиваем, чтобы фоновое изображение занимало всю область */
+    background-position: center; /* Центрируем фоновое изображение */
+    height: 100vh; /* Устанавливаем высоту для body равной высоте окна браузера */
+    position: relative; /* Устанавливаем относительное позиционирование для вложенных элементов */
+    overflow: hidden; /* Скрываем любые элементы, которые выходят за пределы области */
+}
+.hero {
+    background: rgba(0, 0, 0, 0.7); /* Полупрозрачный черный фон для блока с приветствием */
+    color: white; /* Устанавливаем цвет текста на белый */
+    padding: 60px 20px; /* Устанавливаем внутренние отступы (сверху и снизу 60px, справа и слева 20px) */
+    border-radius: 15px; /* Закругляем углы блока */
+    margin-bottom: 30px; /* Устанавливаем нижний отступ для блока */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Добавляем тень к блоку */
+    position: relative; /* Устанавливаем относительное позиционирование для этого блока */
+    z-index: 1; /* Устанавливаем порядок наложения, чтобы блок был выше других элементов */
+}
+.card {
+    border: none; /* Убираем рамку у карточек */
+    transition: transform 0.3s, box-shadow 0.3s; /* Добавляем плавные переходы для анимации при наведении */
+    border-radius: 15px; /* Закругляем углы карточек */
+    overflow: hidden; /* Скрываем части карточек, которые выходят за пределы */
+    z-index: 1; /* Устанавливаем порядок наложения для карточек */
+}
+.card:hover {
+    transform: translateY(-10px); /* При наведении на карточку поднимаем её вверх на 10 пикселей */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Увеличиваем тень при наведении */
+}
+.btn-custom {
+    border-radius: 25px; /* Закругляем углы кнопок */
+    padding: 10px 20px; /* Устанавливаем внутренние отступы для кнопок */
+    font-weight: bold; /* Устанавливаем жирный шрифт для текста кнопок */
+}
+.card-title {
+    font-size: 1.5rem; /* Увеличиваем размер шрифта для заголовка карточки */
+    font-weight: 700; /* Устанавливаем жирный шрифт для заголовка карточки */
+    margin-top: 15px; /* Устанавливаем верхний отступ для заголовка карточки */
+}
+.card-text {
+    font-size: 1rem; /* Устанавливаем размер шрифта для текста карточки */
+    color: #6c757d; /* Устанавливаем цвет текста карточки */
+}
+
